@@ -74,3 +74,30 @@ Outputs:
     {{ /if }}
 {{ /rucksack:contents }}
 ```
+
+## External Access
+
+When you add something to your rucksack, since it's managed in session, it's only available to you.
+To facilitate sharing of a rucksack's contents, you may generate a hash and reference that
+when outputting contents.
+
+```
+/wishlist?hash={{ rucksack:external_hash }}
+```
+
+This will save the rucksack's contents to cache and outputs a corresponding hash. Something like:
+
+```
+/wishlist?hash=f8d9aoh4389fdsf
+```
+
+Then in your `{{ rucksack:contents }}` tag, passing along the hash will output the contents for _that_ rucksack:
+
+```
+{{ rucksack:contents hash="{get:hash}" }}
+    ...
+{{ /rucksack:contents }}
+```
+
+Note that the hashed value will only correspond to the contents for when it was generated. Any updates to the
+rucksack will not be reflected unless a new hash is generated.
