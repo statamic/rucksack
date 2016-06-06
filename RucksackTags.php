@@ -87,7 +87,7 @@ class RucksackTags extends Tags
      */
     public function contents()
     {
-        $contents = $this->rucksack->contents();
+        $contents = $this->getContents();
 
         if ($contents->isEmpty()) {
             return $this->parse(['no_results' => true]);
@@ -111,6 +111,38 @@ class RucksackTags extends Tags
         }
 
         return $this->parseLoop($data);
+    }
+
+    /**
+     * Output a hash that can be used to externally access a rucksack
+     *
+     * @return string
+     */
+    public function externalHash()
+    {
+        $key = Str::random(32);
+
+        $data = serialize($this->rucksack->contents());
+
+        $this->cache->put($key, $data, 60);
+
+        return $key;
+    }
+
+    /**
+     * Get the contents of the rucksack
+     *
+     * Either from session or the cache via a hash
+     *
+     * @return Collection
+     */
+    private function getContents()
+    {
+        if ($hash = $this->get('hash')) {
+            return ($this->cache->exists($hash)) ? unserialize($this->cache->get($hash)) : collect();
+        }
+
+        return $this->rucksack->contents();
     }
 
     /**
