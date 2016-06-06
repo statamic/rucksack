@@ -1,4 +1,4 @@
-# Rucksack
+# Rucksack ![Statamic 2.0](https://img.shields.io/badge/statamic-2.0-blue.svg?style=flat-square)
 > Allow your users to add content and assets to their session. Like a cart for content!
 
 ## Usage example
