@@ -107,10 +107,10 @@ class RucksackTags extends Tags
 
         // Insert the items into a scope when using the 'as' parameter
         if ($scope = $this->get('as')) {
-            $data = [ $scope => $data ];
+            $data = [[ $scope => $data ]];
         }
 
-        return $this->parse($data);
+        return $this->parseLoop($data);
     }
 
     /**
